@@ -11,6 +11,3 @@ def create_table_and_database():
 def get_session():
     with Session(engine) as session:
         yield session
-
-class Base(DeclarativeBase):
-    pass
