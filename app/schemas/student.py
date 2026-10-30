@@ -1,5 +1,5 @@
 from sqlmodel import SQLModel
-from typing import Optional
+from typing import Optional, List
 from app.schemas.class_model import ResponseKelas
 
 # request body saat menambah siswa baru
@@ -14,3 +14,9 @@ class ResponseSiswa(BuatSiswa):
 
 class SiswaWithClassResponse(ResponseSiswa):
     classroom: Optional[ResponseKelas] = None
+
+class PaginatedStudentResponse(SQLModel):
+    total: int
+    page: int
+    size: int
+    result: List[SiswaWithClassResponse]
