@@ -33,3 +33,22 @@ def get_class_detail(class_id: int, db: SessionDep):
         )
 
     return db_class
+
+# Edit data kelas parsial (hanya nama dan ruangannya)
+@router.put("/{class_id}", response_model=ResponseKelas)
+def update_class(class_id: int, data: EditKelas ,db: SessionDep):
+    db_class = db.get(Class, class_id)
+    if not db_class:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Kelas tidak ditemukan"
+        )
+
+    update_data = data.model_dump(exclude_unset=True)
+    for key, value in update_data.items():
+        setattr(db_class, key, value)
+
+    db.add(db_class)
+    db.commit()
+    db.refresh(db_class)
+    return db_class
