@@ -52,3 +52,17 @@ def update_class(class_id: int, data: EditKelas ,db: SessionDep):
     db.commit()
     db.refresh(db_class)
     return db_class
+
+# menghapus kelas
+@router.delete("/{class_id}", status_code=status.HTTP_204_NO_CONTENT)
+def delete_class(class_id: int, db: SessionDep):
+    db_class = db.get(Class, class_id)
+    if not db_class:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Kelas tidak ditemukan"
+        )
+
+    db.delete(db_class)
+    db.commit()
+    return None
