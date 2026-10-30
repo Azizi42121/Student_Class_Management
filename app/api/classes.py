@@ -1,8 +1,9 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException, status
 from typing import List
 from sqlmodel import select
 from app.core.database import SessionDep
-from app.schemas.class_model import BuatKelas, ResponseKelas, Class
+from app.schemas.class_model import Class
+from app.schemas.class_model import BuatKelas, EditKelas, ResponseKelas, ResponseKelasDenganSiswa
 
 router = APIRouter(prefix="/classes", tags=["Classes"])
 
