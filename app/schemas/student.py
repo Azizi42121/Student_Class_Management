@@ -9,7 +9,7 @@ class BuatSiswa(SQLModel):
     class_id: int
 
 # response body standar siswa
-class ResponseSiswa():
+class ResponseSiswa(BuatSiswa):
     id: int
 
 class SiswaWithClassResponse(ResponseSiswa):
