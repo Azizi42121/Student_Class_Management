@@ -15,3 +15,9 @@ def create_class(data: BuatKelas, db: SessionDep):
     db.refresh(db_class)
     return db_class
 
+# Mengambil semua kelas
+@router.get("/", response_model=List[ResponseKelas], status_code=200)
+def get_all_class(db: SessionDep):
+    classes = db.exec(select(Class)).all()
+    return classes
+
