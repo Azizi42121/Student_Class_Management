@@ -1,5 +1,6 @@
 from sqlmodel import Session, SQLModel, create_engine
-from sqlalchemy.orm import DeclarativeBase
+from typing import Annotated
+from fastapi import Depends
 
 DATABASE_URL = f"sqlite:///./database.db"
 
@@ -11,3 +12,5 @@ def create_table_and_database():
 def get_session():
     with Session(engine) as session:
         yield session
+
+SessionDep = Annotated[Session, Depends(get_session)]
