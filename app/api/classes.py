@@ -22,3 +22,14 @@ def get_all_class(db: SessionDep):
     classes = db.exec(select(Class)).all()
     return classes
 
+# Mengambil daftar siswa di kelas tertentu
+@router.get("/{class_id}/student", response_model=ResponseKelasDenganSiswa)
+def get_class_detail(class_id: int, db: SessionDep):
+    db_class = db.get(Class, class_id)
+    if not db_class:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Kelas tidak ditemukan"
+        )
+
+    return db_class
