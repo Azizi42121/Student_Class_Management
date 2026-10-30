@@ -9,8 +9,8 @@ class BuatSiswa(SQLModel):
     class_id: int
 
 # response body standar siswa
-class ResponsesSiswa():
+class ResponseSiswa():
     id: int
 
-class SiswaWithClassResponse(ResponsesSiswa):
+class SiswaWithClassResponse(ResponseSiswa):
     classroom: Optional[ResponseKelas] = None
