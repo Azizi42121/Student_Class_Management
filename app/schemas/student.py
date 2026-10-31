@@ -12,6 +12,11 @@ class BuatSiswa(SQLModel):
 class ResponseSiswa(BuatSiswa):
     id: int
 
+class UpdateSiswa(SQLModel):
+    student_number = Optional[int] = None
+    full_name = Optional[str] = None
+    class_id = Optional[int] = None
+
 class SiswaWithClassResponse(ResponseSiswa):
     classroom: Optional[ResponseKelas] = None
 
