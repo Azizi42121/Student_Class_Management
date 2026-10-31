@@ -81,3 +81,15 @@ def update_siswa(student_id: int, data: UpdateSiswa, db: SessionDep):
         return db_student
 
 # delete("/{student_id}") menghapus siswa
+@router.delete("/{student_id}", status_code=status.HTTP_204_NO_CONTENT)
+def delete_student(student_id: int, db: SessionDep):
+    db_student = db(Siswa, student_id)
+    if not db_student:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Siswa tidak ditemukan"
+        )
+
+    db.delete(db_student)
+    db.commit()
+    return None
