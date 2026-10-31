@@ -51,5 +51,33 @@ def get_all_students(db: SessionDep, page: int = Query(1, ge=1, description="Nom
         "results": students
     }
 
-# put("/{student_id}") mengubah data siswa atau pindah kelas
+# patch("/{student_id}") mengubah data siswa atau pindah kelas
+@router.patch("/{student_id}", response_model=SiswaWithClassResponse)
+def update_siswa(student_id: int, data: UpdateSiswa, db: SessionDep):
+    db_student = db.get(Siswa, student_id)
+    if not db_student:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Siswa tidak ditemukan"
+        )
+
+    update_data = data.model_dump(exclude_unset=True)
+
+    if "class_id" in update_data:
+        target_class = db.get(Siswa, update_data["class_id"])
+        if not target_class:
+            raise HTTPException(
+                status_code = status.HTTP_404_NOT_FOUND,
+                detail=f"Kelas dengan tujuan ID {update_data["class_id"]}"
+            )
+
+        for key, value in update_data.items():
+            setattr(db_student, key, value)
+
+        db.add(db_student)
+        db.commit()
+        db.refresh(db_student)
+
+        return db_student
+
 # delete("/{student_id}") menghapus siswa
